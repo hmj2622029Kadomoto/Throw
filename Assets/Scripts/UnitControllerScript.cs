@@ -32,12 +32,14 @@ public class UnitControllerScript : MonoBehaviour
 
 	[SerializeField] float moveSpeed = 5.0f;
 	[SerializeField] float attackRange = 5.0f;
+	[SerializeField] float hp = 100.0f; 
 
 	[SerializeField] WeaponType weaponType;
 
 	Animator animator;
 	Rigidbody rbody;
 	bool attacking;
+	bool isDead;
 
 	private void Awake()
 	{
@@ -47,6 +49,8 @@ public class UnitControllerScript : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (isDead) return;
+
 		if (target == null || attacking)
 			return;
 
@@ -64,7 +68,11 @@ public class UnitControllerScript : MonoBehaviour
 	
 	void MoveToTarget()
 	{
-		Vector3 direction = (target.position - transform.position).normalized;
+		Vector3 direction = target.position - transform.position;
+
+		direction.y = 0f;
+
+		direction.Normalize();
 
 		transform.forward = direction;
 
@@ -75,6 +83,14 @@ public class UnitControllerScript : MonoBehaviour
 
 	void Attack()
 	{
+		Vector3 direcrtion = target.position - transform.position;
+		direcrtion.y = 0f;
+
+		if(direcrtion!=Vector3.zero)
+		{
+			transform.forward = direcrtion.normalized;
+		}
+
 		attacking = true;
 
 		rbody.linearVelocity = Vector3.zero;
@@ -110,9 +126,12 @@ public class UnitControllerScript : MonoBehaviour
 	{
 		GameObject weapon = Instantiate(weaponPrefab, throwPoint.position, throwPoint.rotation);
 
-		Rigidbody weaponRbody = weapon.GetComponent<Rigidbody>();
+		weapon.transform.forward = transform.forward;
+		weapon.transform.Rotate(0f, 90f, 0f);
 
-		weapon.GetComponent<Rigidbody>();
+		Debug.Log("Target = " + target.name);
+
+		Rigidbody weaponRbody = weapon.GetComponent<Rigidbody>();
 
 		weaponRbody.linearVelocity = transform.forward * throwPower;
 	}
@@ -120,5 +139,17 @@ public class UnitControllerScript : MonoBehaviour
 	void EndAttack()
 	{
 		attacking = false;
+	}
+
+	void Damage(float damage)
+	{
+		hp -= damage;
+		animator.SetTrigger("Damage");
+		if(hp<=0&&!isDead)
+		{
+			isDead = true;
+			animator.SetTrigger("Death");
+			rbody.linearVelocity = Vector3.zero;			
+		}
 	}
 }

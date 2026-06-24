@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cross Spear 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 20b7028db6cf7d545861d052e4891916, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -64,10 +68,10 @@ PrefabInstance:
       addedObject: {fileID: 4688716610420194870}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 20b7028db6cf7d545861d052e4891916, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5607057232111251170}
+      addedObject: {fileID: 4561455520881643788}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 20b7028db6cf7d545861d052e4891916, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4561455520881643788}
+      addedObject: {fileID: 5348674781255925666}
   m_SourcePrefab: {fileID: 100100000, guid: 20b7028db6cf7d545861d052e4891916, type: 3}
 --- !u!1 &4136873619521578762 stripped
 GameObject:
@@ -116,7 +120,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.10546449, y: 0.37857378, z: 0.06261939}
   m_Center: {x: -0.29323077, y: 0.00214912, z: 0.0016316883}
---- !u!54 &5607057232111251170
+--- !u!114 &4561455520881643788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136873619521578762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754ac343e956c9748af7fb334cf5ab1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponScript
+  damage: 100
+  hit: 0
+--- !u!54 &5348674781255925666
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,16 +161,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4561455520881643788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4136873619521578762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 754ac343e956c9748af7fb334cf5ab1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponScript
-  damage: 20
