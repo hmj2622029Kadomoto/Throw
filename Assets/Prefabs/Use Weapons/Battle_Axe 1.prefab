@@ -50,10 +50,90 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 67ccd11f8d1fbc84fb38207f60e1f4dd, type: 3}
       propertyPath: m_Name
-      value: Battle_Axe
+      value: Battle_Axe 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 67ccd11f8d1fbc84fb38207f60e1f4dd, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 67ccd11f8d1fbc84fb38207f60e1f4dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5643731748993598894}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 67ccd11f8d1fbc84fb38207f60e1f4dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 11096233630682321}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 67ccd11f8d1fbc84fb38207f60e1f4dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3981097951404952979}
   m_SourcePrefab: {fileID: 100100000, guid: 67ccd11f8d1fbc84fb38207f60e1f4dd, type: 3}
+--- !u!1 &708925478423327404 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 67ccd11f8d1fbc84fb38207f60e1f4dd, type: 3}
+  m_PrefabInstance: {fileID: 367028142187499517}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5643731748993598894
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708925478423327404}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1360971, y: 0.39657694, z: 0.07574984}
+  m_Center: {x: 0.35445845, y: -0.16872185, z: 0}
+--- !u!54 &11096233630682321
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708925478423327404}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &3981097951404952979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708925478423327404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754ac343e956c9748af7fb334cf5ab1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponScript
+  damage: 20
+  hit: 0

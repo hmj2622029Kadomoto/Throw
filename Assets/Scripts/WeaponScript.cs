@@ -3,7 +3,7 @@ using UnityEngine;
 public class WeaponScript : MonoBehaviour
 {
 	[SerializeField] float damage = 20.0f;
-	[SerializeField] bool hit = false;
+	bool hit = false;
 
 	private void OnCollisionEnter(Collision collision)
 	{
@@ -11,14 +11,20 @@ public class WeaponScript : MonoBehaviour
 		
 		hit = true;
 
-		Debug.Log(gameObject.name + "Ç…" + damage + "É_ÉÅÅ[ÉW");
-
 		collision.gameObject.SendMessage("Damage", damage, SendMessageOptions.DontRequireReceiver);
 		Rigidbody rbody =GetComponent<Rigidbody>();
+
+		Collider col = GetComponent<Collider>();
+
+		if(col != null)
+		{
+			col.enabled = false;
+		}
 
 		if(rbody != null )
 		{
 			rbody.linearVelocity = Vector3.zero;
+			rbody.angularVelocity = Vector3.zero;
 			rbody.isKinematic = true;
 		}
 	}

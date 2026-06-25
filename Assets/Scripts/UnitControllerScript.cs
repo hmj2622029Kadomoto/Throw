@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using Unity.Android.Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,37 +10,32 @@ public class UnitControllerScript : MonoBehaviour
 {
 	enum WeaponType
 	{
-		SpearBishamon,
-		SpearCross,
+		Spear,
 		Naginata,
-		SwordLong,
-		SwordWooden,
-		SwordCeremon,
+		Sword,
 		Axe,
-		Shuriken1,
-		Shuriken2,
-		Shuriken3,
+		Shuriken,
 		Ju,
-		Fan,
-		Kunai,
 		Knife
 	}
 
 	[SerializeField] Transform target;
 	[SerializeField] GameObject weaponPrefab;
 	[SerializeField] Transform throwPoint;
-	[SerializeField] float throwPower = 15f;
 
+	[SerializeField] float attackInterval = 2f;
+	[SerializeField] float throwPower = 10f;
 	[SerializeField] float moveSpeed = 5.0f;
 	[SerializeField] float attackRange = 5.0f;
-	[SerializeField] float hp = 100.0f; 
+	[SerializeField] float hp = 100.0f;
+	[SerializeField] float spawnOffset = 1f;
 
 	[SerializeField] WeaponType weaponType;
 
 	Animator animator;
 	Rigidbody rbody;
 	bool attacking;
-	bool isDead;
+	bool isDead = false;
 
 	private void Awake()
 	{
@@ -50,6 +46,15 @@ public class UnitControllerScript : MonoBehaviour
 	private void FixedUpdate()
 	{
 		if (isDead) return;
+
+		if (target != null)
+		{
+			UnitControllerScript targetUnit = target.GetComponent<UnitControllerScript>();
+			if (targetUnit != null && targetUnit.IsDead)
+			{
+				target = null;
+			}
+		}
 
 		if (target == null || attacking)
 			return;
@@ -65,7 +70,7 @@ public class UnitControllerScript : MonoBehaviour
 			Attack();
 		}
 	}
-	
+
 	void MoveToTarget()
 	{
 		Vector3 direction = target.position - transform.position;
@@ -86,7 +91,7 @@ public class UnitControllerScript : MonoBehaviour
 		Vector3 direcrtion = target.position - transform.position;
 		direcrtion.y = 0f;
 
-		if(direcrtion!=Vector3.zero)
+		if (direcrtion != Vector3.zero)
 		{
 			transform.forward = direcrtion.normalized;
 		}
@@ -99,41 +104,82 @@ public class UnitControllerScript : MonoBehaviour
 
 		switch (weaponType)
 		{
-			case WeaponType.SpearBishamon:
-			case WeaponType.SpearCross:
+			case WeaponType.Spear:
 			case WeaponType.Naginata:
 				animator.SetTrigger("SpearThrow");
 				break;
-			case WeaponType.SwordLong:
-			case WeaponType.SwordWooden:
-			case WeaponType.SwordCeremon:
+			case WeaponType.Sword:
 			case WeaponType.Axe:
+			case WeaponType.Ju:
 				animator.SetTrigger("WeaponThrow");
 				break;
-			case WeaponType.Shuriken1:
-			case WeaponType.Shuriken2:
-			case WeaponType.Shuriken3:
-			case WeaponType.Ju:
-			case WeaponType.Fan:
-			case WeaponType.Kunai:
+			case WeaponType.Shuriken:
 			case WeaponType.Knife:
 				animator.SetTrigger("BoomerangThrow");
 				break;
 		}
+
+		Invoke(nameof(EndAttack), attackInterval);
 	}
 
 	void ThrowWeapon()
 	{
-		GameObject weapon = Instantiate(weaponPrefab, throwPoint.position, throwPoint.rotation);
-
-		weapon.transform.forward = transform.forward;
-		weapon.transform.Rotate(0f, 90f, 0f);
-
-		Debug.Log("Target = " + target.name);
+		GameObject weapon = Instantiate(weaponPrefab, throwPoint.position + transform.forward * spawnOffset, throwPoint.rotation);
 
 		Rigidbody weaponRbody = weapon.GetComponent<Rigidbody>();
 
-		weaponRbody.linearVelocity = transform.forward * throwPower;
+		Vector3 dir = transform.forward;
+		float upward = 0.3f;
+		float spinUp = 0f;
+		float spinRight = 0f;
+
+		switch (weaponType)
+		{
+			case WeaponType.Spear:
+				upward = 0.1f;
+				spinUp = 0f;
+				spinRight = 0f;
+				break;
+
+			case WeaponType.Axe:
+				upward = 0.8f;
+				spinUp = 100f;
+				spinRight = 0.1f;
+				break;
+
+			case WeaponType.Shuriken:
+				upward = 0.1f;
+				spinUp = 30f;
+				spinRight = 0f;
+				break;
+
+			case WeaponType.Ju:
+				upward = 0.3f;
+				spinUp = 0f;
+				spinRight = 15f;
+				break;
+
+			case WeaponType.Naginata:
+				upward = 0.1f;
+				spinUp = 0f;
+				spinRight = 0f;
+				break;
+
+			case WeaponType.Knife:
+				upward = 0.1f;
+				spinUp = 10f;
+				spinRight = 0f;
+				break;
+		}
+
+		if (weaponType == WeaponType.Spear || weaponType == WeaponType.Ju || weaponType == WeaponType.Naginata)
+		{
+			weapon.transform.Rotate(0f, 180f, 0f);
+		}
+
+		weaponRbody.linearVelocity = dir * throwPower + Vector3.up * upward * throwPower;
+		weaponRbody.angularVelocity = transform.right * spinUp;
+		weaponRbody.angularVelocity = transform.up * spinRight;
 	}
 
 	void EndAttack()
@@ -145,11 +191,16 @@ public class UnitControllerScript : MonoBehaviour
 	{
 		hp -= damage;
 		animator.SetTrigger("Damage");
-		if(hp<=0&&!isDead)
+		if (hp <= 0 && !isDead)
 		{
 			isDead = true;
 			animator.SetTrigger("Death");
-			rbody.linearVelocity = Vector3.zero;			
+			rbody.linearVelocity = Vector3.zero;
 		}
+	}
+
+	public bool IsDead
+	{
+		get { return isDead; }
 	}
 }
