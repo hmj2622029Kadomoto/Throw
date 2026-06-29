@@ -280,9 +280,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb24e63d107b01f4186334266a12cf8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
-  target: {fileID: 0}
   weaponPrefab: {fileID: 2553484976034543853, guid: b5500069509a1e4498a3dece5206ffb7, type: 3}
   throwPoint: {fileID: 3034695784176149122}
+  target: {fileID: 0}
   attackInterval: 3
   throwPower: 10
   moveSpeed: 5
@@ -290,6 +290,7 @@ MonoBehaviour:
   hp: 100
   spawnOffset: 2
   weaponType: 5
+  isPlayer: 1
 --- !u!54 &4229419074614028833
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -818,7 +818,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 82255762a0f24ef45a1dd0c224752bca, type: 2}
     - target: {fileID: 919132149155446097, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
       propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
+      propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
@@ -929,14 +937,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb24e63d107b01f4186334266a12cf8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
-  target: {fileID: 0}
   weaponPrefab: {fileID: 4136873619521578762, guid: 4c5ac6f7f57e71142a966eb01bbb076a, type: 3}
   throwPoint: {fileID: 1000075636856135088}
+  target: {fileID: 0}
+  attackInterval: 2
   throwPower: 15
   moveSpeed: 5
   attackRange: 5
   hp: 100
+  spawnOffset: 3
   weaponType: 0
+  isPlayer: 0
 --- !u!54 &7830372321230819101
 Rigidbody:
   m_ObjectHideFlags: 0

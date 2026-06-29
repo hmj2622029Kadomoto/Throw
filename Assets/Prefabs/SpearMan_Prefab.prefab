@@ -259,16 +259,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb24e63d107b01f4186334266a12cf8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
-  target: {fileID: 0}
   weaponPrefab: {fileID: 4136873619521578762, guid: 4c5ac6f7f57e71142a966eb01bbb076a, type: 3}
   throwPoint: {fileID: 3034695784176149122}
+  target: {fileID: 0}
   attackInterval: 1
   throwPower: 20
   moveSpeed: 5
   attackRange: 30
   hp: 100
-  spawnOffset: 1
+  spawnOffset: 3
   weaponType: 0
+  isPlayer: 1
 --- !u!54 &4229419074614028833
 Rigidbody:
   m_ObjectHideFlags: 0

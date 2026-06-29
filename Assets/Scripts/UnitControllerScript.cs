@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using Unity.Android.Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 
 
@@ -19,9 +21,9 @@ public class UnitControllerScript : MonoBehaviour
 		Knife
 	}
 
-	[SerializeField] Transform target;
 	[SerializeField] GameObject weaponPrefab;
 	[SerializeField] Transform throwPoint;
+	[SerializeField] Transform target;
 
 	[SerializeField] float attackInterval = 2f;
 	[SerializeField] float throwPower = 10f;
@@ -36,11 +38,16 @@ public class UnitControllerScript : MonoBehaviour
 	Rigidbody rbody;
 	bool attacking;
 	bool isDead = false;
+	[SerializeField] bool isPlayer;
 
 	private void Awake()
 	{
 		animator = GetComponent<Animator>();
 		rbody = GetComponent<Rigidbody>();
+	}
+	private void Start()
+	{
+		target = FindNearestEnemy();
 	}
 
 	private void FixedUpdate()
@@ -52,7 +59,7 @@ public class UnitControllerScript : MonoBehaviour
 			UnitControllerScript targetUnit = target.GetComponent<UnitControllerScript>();
 			if (targetUnit != null && targetUnit.IsDead)
 			{
-				target = null;
+				target = FindNearestEnemy();
 			}
 		}
 
@@ -130,45 +137,42 @@ public class UnitControllerScript : MonoBehaviour
 
 		Vector3 dir = transform.forward;
 		float upward = 0.3f;
-		float spinUp = 0f;
-		float spinRight = 0f;
+		float spin = 0f;
 
 		switch (weaponType)
 		{
 			case WeaponType.Spear:
 				upward = 0.1f;
-				spinUp = 0f;
-				spinRight = 0f;
+				spin = 0f;
 				break;
 
 			case WeaponType.Axe:
 				upward = 0.8f;
-				spinUp = 100f;
-				spinRight = 0.1f;
+				spin = 30f;
+				weaponRbody.angularVelocity = transform.right * spin;
 				break;
 
 			case WeaponType.Shuriken:
 				upward = 0.1f;
-				spinUp = 30f;
-				spinRight = 0f;
+				spin = 30f;
+				weaponRbody.angularVelocity = transform.right * spin;
 				break;
 
 			case WeaponType.Ju:
 				upward = 0.3f;
-				spinUp = 0f;
-				spinRight = 15f;
+				spin = 15f;
+				weaponRbody.angularVelocity = transform.up * spin;
 				break;
 
 			case WeaponType.Naginata:
 				upward = 0.1f;
-				spinUp = 0f;
-				spinRight = 0f;
+				spin = 0f;
 				break;
 
 			case WeaponType.Knife:
 				upward = 0.1f;
-				spinUp = 10f;
-				spinRight = 0f;
+				spin = 10f;
+				weaponRbody.angularVelocity = transform.right * spin;
 				break;
 		}
 
@@ -178,9 +182,8 @@ public class UnitControllerScript : MonoBehaviour
 		}
 
 		weaponRbody.linearVelocity = dir * throwPower + Vector3.up * upward * throwPower;
-		weaponRbody.angularVelocity = transform.right * spinUp;
-		weaponRbody.angularVelocity = transform.up * spinRight;
 	}
+
 
 	void EndAttack()
 	{
@@ -202,5 +205,34 @@ public class UnitControllerScript : MonoBehaviour
 	public bool IsDead
 	{
 		get { return isDead; }
+	}
+
+	Transform FindNearestEnemy()
+	{
+		string targetTag = isPlayer ? "Enemy" : "Player";
+
+		GameObject[] targets = GameObject.FindGameObjectsWithTag(targetTag);
+
+		Transform nearest = null;
+		float nearestDistance = Mathf.Infinity;
+
+		foreach (GameObject obj in targets)
+		{
+			UnitControllerScript unit = obj.GetComponent<UnitControllerScript>();
+
+			if (unit != null && unit.isDead)
+			{
+				continue;
+			}
+
+			float distance = Vector3.Distance(transform.position, obj.transform.position);
+
+			if (distance < nearestDistance)
+			{
+				nearestDistance = distance;
+				nearest = obj.transform;
+			}
+		}
+		return nearest;
 	}
 }
