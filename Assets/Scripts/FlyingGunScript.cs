@@ -28,6 +28,6 @@ public class FlyingGun : MonoBehaviour
 
 		Rigidbody rbody = bullet.GetComponent<Rigidbody>();
 
-		rbody.linearVelocity = -muzzle.right * 30f;
+		rbody.linearVelocity = -muzzle.right * 50f;
 	}
 }

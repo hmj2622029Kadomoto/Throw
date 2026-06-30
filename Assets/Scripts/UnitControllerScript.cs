@@ -45,14 +45,13 @@ public class UnitControllerScript : MonoBehaviour
 		animator = GetComponent<Animator>();
 		rbody = GetComponent<Rigidbody>();
 	}
-	private void Start()
-	{
-		target = FindNearestEnemy();
-	}
 
 	private void FixedUpdate()
 	{
 		if (isDead) return;
+
+		if (target == null)
+			target = FindNearestEnemy();
 
 		if (target != null)
 		{
@@ -67,6 +66,8 @@ public class UnitControllerScript : MonoBehaviour
 			return;
 
 		float distance = Vector3.Distance(transform.position, target.position);
+
+		rbody.AddForce(Physics.gravity * 10f, ForceMode.Acceleration);
 
 		if (distance > attackRange)
 		{
@@ -159,9 +160,15 @@ public class UnitControllerScript : MonoBehaviour
 				break;
 
 			case WeaponType.Ju:
-				upward = 0.3f;
+				upward = 1f;
 				spin = 15f;
-				weaponRbody.angularVelocity = transform.up * spin;
+				weaponRbody.angularVelocity = transform.right * spin;
+				break;
+
+			case WeaponType.Sword:
+				upward = 0.5f;
+				spin = 45f;
+				weaponRbody.angularVelocity = transform.right * spin;
 				break;
 
 			case WeaponType.Naginata:
@@ -176,7 +183,7 @@ public class UnitControllerScript : MonoBehaviour
 				break;
 		}
 
-		if (weaponType == WeaponType.Spear || weaponType == WeaponType.Ju || weaponType == WeaponType.Naginata)
+		if (weaponType == WeaponType.Spear || weaponType == WeaponType.Ju || weaponType == WeaponType.Naginata || weaponType == WeaponType.Sword)
 		{
 			weapon.transform.Rotate(0f, 180f, 0f);
 		}
